@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- version 1.2.1 - 2011/02/13 -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns=="http://www.storytellingeditor.org/storytelling" xmlns:bip=="http://www.storytellingeditor.org/storytelling"
+    targetNamespace=="http://www.storytellingeditor.org/storytelling" elementFormDefault="qualified">
+
+    <xsd:complexType name="ImportSettings">
+        <xsd:attribute name="pageNumber" type="xsd:string"/>
+        <xsd:attribute name="scheduledPublishingDate" type="xsd:dateTime"/>
+        <xsd:attribute name="title" type="xsd:string"/>
+        <xsd:attribute name="targetFolder" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ResourceType">
+        <xsd:attribute name="externalId" type="xsd:string"/>
+        <xsd:attribute name="internalId" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="DocumentType">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="1" minOccurs="0" ref="Stage"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="BIPPhysicsAsCDATA"
+                        type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="BIPStageAsCDATA"
+                        type="xsd:string"/>
+                    <xsd:element maxOccurs="1" minOccurs="0" name="importSettings"
+                        type="ImportSettings"/>
+                </xsd:sequence>
+                <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="StageType">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:sequence>
+                    <xsd:element ref="Scenario"/>
+                </xsd:sequence>
+                <xsd:attribute name="name" type="xsd:string"/>
+                <xsd:attribute name="width" type="xsd:float"/>
+                <xsd:attribute name="height" type="xsd:float"/>
+                <xsd:attribute name="pageWidth" type="xsd:float"/>
+                <xsd:attribute name="pageHeight" type="xsd:float"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="ExternalDataType">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:attribute name="externalURL"/>
+                <xsd:attribute name="keyName"/>
+                <xsd:attribute name="viewPosition"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="AssetType">
+        <xsd:complexContent>
+            <xsd:extension base="Layoutable">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" ref="ExternalData"/>
+                    <xsd:element ref="KeyframeAnimation" minOccurs="0"/>
+                </xsd:sequence>
+                <xsd:attribute name="hidden" type="xsd:boolean"/>
+                <xsd:attribute name="isButton" type="xsd:boolean"/>
+                <xsd:attribute name="kind" type="AssetKindType"/>
+                <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="Layoutable">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:attribute name="x" type="xsd:float"/>
+                <xsd:attribute name="y" type="xsd:float"/>
+                <xsd:attribute name="width" type="xsd:float"/>
+                <xsd:attribute name="height" type="xsd:float"/>
+                <xsd:attribute name="zIndex" type="xsd:integer"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="ScenarioType">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:sequence>
+                    <xsd:element ref="Scene" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="SceneType">
+        <xsd:complexContent>
+            <xsd:extension base="ResourceType">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" ref="Asset"/>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    <xsd:complexType name="TransformType">
+        <xsd:attribute name="scale" type="xsd:float"/>
+        <xsd:attribute name="rotate" type="xsd:float"/>
+        <xsd:attribute name="translateX" type="xsd:float"/>
+        <xsd:attribute name="translateY" type="xsd:float"/>
+    </xsd:complexType>
+    <xsd:complexType name="AlphaType">
+        <xsd:attribute name="value"/>
+    </xsd:complexType>
+    <xsd:complexType name="KeyframeAnimationType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" ref="Keyframe"/>
+        </xsd:sequence>
+        <xsd:attribute name="duration" type="DurationType" use="required"/>
+        <xsd:attribute name="timingFunction" type="TimingFunctionType" use="required"/>
+    </xsd:complexType>
+    <xsd:complexType name="KeyframeType">
+        <xsd:sequence>
+            <xsd:element ref="Alpha"/>
+            <xsd:element ref="Transform"/>
+        </xsd:sequence>
+        <xsd:attribute name="keyTime" type="xsd:float" use="required"/>
+        <xsd:attribute name="timingFunction" type="TimingFunctionType" use="optional"/>
+    </xsd:complexType>
+    <xsd:simpleType name="ServerErrorCodeType">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="no-job-id-given"/>
+            <xsd:enumeration value="no-job-with-id"/>
+            <xsd:enumeration value="coremedia-exception"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TimingFunctionType">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="ease-in"/>
+            <xsd:enumeration value="ease-out"/>
+            <xsd:enumeration value="ease-in-out"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="AssetKindType">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="image"/>
+            <xsd:enumeration value="video"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- xsd:simpleType name="ButtonTargetType">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="button-target-type-externalId"/>
+            <xsd:enumeration value="button-target-type-scene"/>            
+        </xsd:restriction>
+    </xsd:simpleType -->
+    <xsd:simpleType name="DurationType">
+        <xsd:annotation>
+            <xsd:documentation>Time in seconds.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:float"/>
+    </xsd:simpleType>
+    <xsd:element name="ServerImportResult">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="ImportExportError"/>
+                <xsd:element ref="URLMapping" maxOccurs="unbounded" minOccurs="0"/>
+                <xsd:element ref="Document"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="ImportExportError">
+        <xsd:complexType>
+            <xsd:attribute name="code" use="required" type="ServerErrorCodeType"/>
+            <xsd:attribute name="description" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="URLMapping">
+        <xsd:complexType>
+            <xsd:attribute name="url" use="required"/>
+            <xsd:attribute name="externalId" use="required"/>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="StoryTellingImport">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element maxOccurs="unbounded" minOccurs="0" ref="URLMapping"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="Stage" type="StageType"/>
+    <xsd:element name="Document" type="DocumentType"/>
+    <xsd:element name="ExternalData" type="ExternalDataType"/>
+    <xsd:element name="Scene" type="SceneType"/>
+    <xsd:element name="Scenario" type="ScenarioType"/>
+    <xsd:element name="Asset" type="AssetType"/>
+    <xsd:element name="KeyframeAnimation" type="KeyframeAnimationType"/>
+    <xsd:element name="Keyframe" type="KeyframeType"/>
+    <xsd:element name="Alpha" type="AlphaType"/>
+    <xsd:element name="Transform" type="TransformType"/>
+</xsd:schema>

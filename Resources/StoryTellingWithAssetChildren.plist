@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Neue Stage</string>
+		<key>width</key>
+		<integer>768</integer>
+		<key>height</key>
+		<integer>480</integer>
+		<key>#entityName</key>
+		<string>Stage</string>
+		<key>scenario</key>
+		<dict>
+			<key>playables</key>
+			<array>
+				<dict>
+					<key>transitionToNext</key>
+					<dict>
+						<key>#entityName</key>
+						<string>Transition</string>
+					</dict>
+					<key>name</key>
+					<string>Neue Szene</string>
+					<key>#entityName</key>
+					<string>Scene</string>
+				</dict>
+			</array>
+			<key>#entityName</key>
+			<string>Scenario</string>
+		</dict>
+	</dict>
+</array>
+</plist>

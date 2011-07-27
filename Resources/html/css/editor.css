@@ -1,0 +1,18 @@
+.small {
+    font-size: 9px;
+}
+
+a.bgRed {
+    background-color: #ffcccc;
+    color: #000000;
+}
+
+a.bgBlue {
+    background-color: #ccccff;
+    color: #000000;
+}
+
+.highlight {
+    background-color: #ffff00;
+    font-weight: bold;
+}

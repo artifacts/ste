@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2010-2011, BILD digital GmbH & Co. KG
+    All rights reserved.
+    
+    BSD License
+    
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+    * Neither the name of BILD digital GmbH & Co. KG nor the
+    names of its contributors may be used to endorse or promote products
+    derived from this software without specific prior written permission.
+    
+    THIS SOFTWARE IS PROVIDED BY BILD digital GmbH & Co. KG ''AS IS'' AND ANY
+    EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL BILD digital GmbH & Co. KG BE LIABLE FOR ANY
+    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.storytellingeditor.org/storytelling" targetNamespace="http://www.storytellingeditor.org/storytelling"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="basic-types.xsd" />
+
+    <xsd:complexType name="Inline" mixed="true">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+            <xsd:group ref="inline"/>
+        </xsd:choice>
+    </xsd:complexType>
+
+    <xsd:group name="inline">
+        <xsd:choice>
+            <xsd:element ref="p"/>
+            <xsd:element ref="font"/>
+            <xsd:element ref="a"/>
+            <xsd:element ref="u"/>
+            <xsd:element ref="i"/>
+            <xsd:element ref="b"/>
+            <xsd:element ref="em"/>
+            <xsd:element ref="strong"/>
+        </xsd:choice>
+    </xsd:group>
+
+    <xsd:simpleType name="Alignment">
+        <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="center"/>
+            <xsd:enumeration value="right"/>
+            <xsd:enumeration value="left"/>
+            <xsd:enumeration value="justify"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="font">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="size" type="xsd:float"/>
+                    <xsd:attribute name="face" type="xsd:string"/>
+                    <xsd:attribute name="color" type="ColorType"/>
+                    <xsd:attribute name="characterSpacing" type="xsd:float" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="a">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="href" type="xsd:string"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="b">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="u">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="color" type="ColorType" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="i">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline" />
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="p">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="align" type="Alignment"/>
+                    <xsd:attribute name="lineSpacing" type="xsd:float" />
+                    <xsd:attribute name="indentation" type="xsd:float" />
+                    <xsd:attribute name="backgroundColor" type="ColorType" />
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="em">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="align" type="Alignment"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="strong">
+        <xsd:complexType mixed="true">
+            <xsd:complexContent>
+                <xsd:extension base="Inline">
+                    <xsd:attribute name="align" type="Alignment"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+     <xsd:complexType name="ListElementType">
+         <xsd:complexContent>
+             <xsd:extension base="Inline">
+                 <xsd:attribute name="align" type="Alignment"/>
+             </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="ol">
+        <xsd:complexType>
+            <xsd:all>
+	            <xsd:element name="li" type="ListElementType" />
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="ul">
+        <xsd:complexType>
+        	<xsd:all>
+	            <xsd:element name="li" type="ListElementType" />
+        	</xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

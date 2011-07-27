@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (c) 2010-2011, BILD digital GmbH & Co. KG
+	All rights reserved.
+	
+	BSD License
+	
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+	* Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in the
+	documentation and/or other materials provided with the distribution.
+	* Neither the name of BILD digital GmbH & Co. KG nor the
+	names of its contributors may be used to endorse or promote products
+	derived from this software without specific prior written permission.
+	
+	THIS SOFTWARE IS PROVIDED BY BILD digital GmbH & Co. KG ''AS IS'' AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+	DISCLAIMED. IN NO EVENT SHALL BILD digital GmbH & Co. KG BE LIABLE FOR ANY
+	DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.storytellingeditor.org/storytelling" targetNamespace="http://www.storytellingeditor.org/storytelling"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="events.xsd" />
+
+	<!-- Widget superclasses -->
+
+	<xsd:attributeGroup name="PositionAttributeGroup">
+		<xsd:attribute name="x" type="xsd:float" use="optional" />
+		<xsd:attribute name="y" type="xsd:float" use="optional" />
+		<xsd:attribute name="z" type="xsd:float" use="optional"
+			default="0" />
+	</xsd:attributeGroup>
+
+	<xsd:attributeGroup name="DimensionAttributeGroup">
+		<xsd:attribute name="width" type="xsd:float" use="optional" />
+		<xsd:attribute name="height" type="xsd:float" use="optional" />
+	</xsd:attributeGroup>
+
+	<xsd:attributeGroup name="EventTransparencyGroup">
+		<xsd:attribute name="eventTransparency" type="xsd:boolean"
+			use="required" />
+	</xsd:attributeGroup>
+
+	<xsd:complexType name="PositionType" abstract="true">
+		<xsd:attributeGroup ref="PositionAttributeGroup" />
+	</xsd:complexType>
+
+	<xsd:complexType name="DimensionType" abstract="true">
+		<xsd:attributeGroup ref="DimensionAttributeGroup" />
+	</xsd:complexType>
+
+	<xsd:complexType name="WidgetType" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="event" type="EventType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:string" />
+		<xsd:attributeGroup ref="PositionAttributeGroup" />
+		<xsd:attributeGroup ref="DimensionAttributeGroup" />
+	</xsd:complexType>
+
+
+	<!-- Please extend this group with any widget newly created. -->
+	<xsd:group name="WidgetTypesGroup">
+		<xsd:choice>
+			<xsd:element name="button" type="ButtonWidgetType" />			
+			<xsd:element name="image" type="ImageWidgetType" />
+			<xsd:element name="storyTelling" type="StoryTellingWidgetType" />
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:complexType name="ImageWidgetType">
+		<xsd:annotation>
+			<xsd:documentation>Event transparency permanently enabled - passes
+				events
+				through. Mainly for story telling.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="WidgetType">
+				<xsd:attribute name="imageURL" type="xsd:anyURI" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ButtonWidgetType">
+        <xsd:complexContent>
+            <xsd:extension base="WidgetType">
+                <xsd:sequence>
+                    <xsd:element name="activate">
+                    	<xsd:complexType>
+                  			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                   				<xsd:group ref="ActionTypesGroup"/>
+                   			</xsd:sequence>
+                    	</xsd:complexType>	
+                    </xsd:element>
+                    
+                    <xsd:element name="deactivate">
+                    	<xsd:complexType>
+                  			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                   				<xsd:group ref="ActionTypesGroup"/>
+                   			</xsd:sequence>
+                    	</xsd:complexType>	
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="group" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>
+                        	A button can be member of a group. Of all buttons in a group
+                        	only one can be active at a time.
+                        	The activate and deactivate events are send accordingly.
+				        </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+				<xsd:attribute name="activeImageURL" type="xsd:anyURI" use="optional"/>
+				<xsd:attribute name="inactiveImageURL" type="xsd:anyURI" use="optional"/>
+				<xsd:attribute name="active" type="xsd:boolean" use="optional"/>
+            </xsd:extension>
+        </xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="StoryTellingWidgetType">
+		<xsd:complexContent>
+			<xsd:extension base="WidgetType">
+                <xsd:attribute name="stageURL" type="xsd:anyURI" />
+                <xsd:attribute name="landscapeStageURL" type="xsd:anyURI" use="optional" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

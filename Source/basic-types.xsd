@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2010-2011, BILD digital GmbH & Co. KG
+    All rights reserved.
+    
+    BSD License
+    
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+    * Neither the name of BILD digital GmbH & Co. KG nor the
+    names of its contributors may be used to endorse or promote products
+    derived from this software without specific prior written permission.
+    
+    THIS SOFTWARE IS PROVIDED BY BILD digital GmbH & Co. KG ''AS IS'' AND ANY
+    EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL BILD digital GmbH & Co. KG BE LIABLE FOR ANY
+    DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+    (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+    LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+    ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+    (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.storytellingeditor.org/storytelling" xmlns="http://www.storytellingeditor.org/storytelling"
+	elementFormDefault="qualified">
+
+	<xsd:simpleType name="DurationType">
+		<xsd:annotation>
+			<xsd:documentation>Time in seconds.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:float"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ColorType">
+		<xsd:annotation>
+			<xsd:documentation>Hex values for RGBA similar to HTML colors #RRGGBBAA</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="LocalURIType">
+		<xsd:annotation>
+			<xsd:documentation>File is asset of the article zip file.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:anyURI">
+            <!-- relative URLs are accepted too
+			<xsd:pattern value="file://.*" />
+            -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+    <xsd:complexType name="TextBlockType" mixed="true">
+           <xsd:annotation>
+                        <xsd:documentation>Color attributes are neccessary, because its a per
+                                Textblock setting. The following optional attributes span the entire
+                                Textblock and may be overridden by richtext tags.</xsd:documentation>
+          </xsd:annotation>
+		<xsd:attribute name="fontFace" type="xsd:string" use="optional" />
+                <xsd:attribute name="fontSize" type="xsd:integer" use="optional" />
+                <xsd:attribute name="lineSpacing" type="xsd:integer" use="optional" />
+                <xsd:attribute name="characterWidth" type="xsd:integer" use="optional" />
+                <xsd:attribute name="characterSpacing" type="xsd:integer" use="optional" />
+                <xsd:attribute name="fontColor" type="ColorType" use="optional" />
+                <xsd:attribute name="backgroundColor" type="ColorType" use="optional" />
+                <xsd:attribute name="underlineWidth" type="xsd:integer" use="optional" />
+                <xsd:attribute name="underlined" type="xsd:boolean" use="optional" default="false" />
+                <xsd:attribute name="italic" type="xsd:boolean" use="optional" default="false" />
+		 <xsd:attribute name="indentText" type="xsd:boolean" use="optional" />
+    </xsd:complexType>
+
+    <xsd:complexType name="ImageAssetType">
+        <xsd:attribute name="id" type="xsd:string" use="required" />
+        <xsd:attribute name="imageURL" type="LocalURIType" use="required" />
+    </xsd:complexType>
+
+</xsd:schema>

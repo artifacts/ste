@@ -1,0 +1,11 @@
+.contentImage_left {
+    float:left;
+    margin-right: 2em;
+    margin-bottom: 1em;
+}
+
+.contentImage_right {
+    float:right;
+    margin-left: 2em;
+    margin-bottom: 1em;
+}

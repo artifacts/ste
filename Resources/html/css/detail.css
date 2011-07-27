@@ -1,0 +1,84 @@
+@import url(table.css);
+
+@import url(menu.css);
+
+@import url(editor.css);
+
+@import url(general.css);
+
+#mainNavigation {
+    /* background-color: #0f0; */
+    width: 60em;
+    border-bottom: 0.1em solid #bebebe;
+    margin-bottom: 1em;
+}
+
+img {
+    border: none;
+}
+
+body {
+	background-image: url(bg-detail.jpg);
+        background-repeat: repeat-x;
+	font-size: 7.5pt;
+	font-family: Verdana, sans-serif;
+        padding: 0;
+        margin: 0;
+        background-color: #f4f4f4;
+}
+
+#logo {
+        /*margin-top: 14.3em;*/
+	float: left;
+}
+#monolith {
+	padding-top: 1em;
+	padding-left: 3em;
+	float: left;
+}
+#content {
+    background-repeat: no-repeat;
+    clear: both;
+    width: 90em;
+    margin-top: 5em;
+}
+#contentDivMainColumn {
+}
+#mainNavigation {   
+    padding-top: 14.5em;
+    /* margin-left: 44em; */
+    /*border-bottom: 0.1em solid #bebebe;*/
+    margin-bottom: 2em;    
+}
+
+a {
+	text-decoration: underline;
+}
+a:link { color: #000; }
+a:hover { color: #666; }
+a:visited { color: #333; }
+
+.cleaner {
+        clear:both;
+        height:1px;
+        font-size:1px;
+        border:none;
+        margin:0; padding:0;
+        background:transparent;
+}
+
+#container {
+    background-image: url(bg-container.jpg);
+    width: 100em;
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 5em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+    background-repeat: no-repeat;
+}
+
+ul {
+    padding-left: 2em;
+}

@@ -1,0 +1,10 @@
+checkout StoryTellingEditor
+git clone https://github.com/bkrpub/EngineRoom.git
+git clone https://github.com/artifacts/AFCache.git
+add SourceTree AFCACHLIB, set it to AFCache project dir
+Important: set shared build path in xcode
+Download and install BWToolkit
+Build!
+
+Note: If build fails, open AFCache Xcode Project and build AFCache, then retry building StoryTellingEditor.
+

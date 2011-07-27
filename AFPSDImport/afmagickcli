@@ -1,0 +1,117 @@
+#!/usr/bin/perl
+
+# Copyright (c) 2010-2011, BILD digital GmbH & Co. KG
+# All rights reserved.
+#
+# BSD License
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#    * Redistributions of source code must retain the above copyright
+#      notice, this list of conditions and the following disclaimer.
+#    * Redistributions in binary form must reproduce the above copyright
+#      notice, this list of conditions and the following disclaimer in the
+#      documentation and/or other materials provided with the distribution.
+#    * Neither the name of BILD digital GmbH & Co. KG nor the
+#      names of its contributors may be used to endorse or promote products
+#      derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY BILD digital GmbH & Co. KG ''AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL BILD digital GmbH & Co. KG BE LIABLE FOR ANY
+# DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+# ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+use strict;
+use warnings;
+
+use File::Path();
+
+( my $toolDir = $0 ) =~ s![^/]+$!!;
+
+my $identify = "$toolDir/afidentify";
+my $convert  = "$toolDir/afconvert";
+
+my $inputFormat = "psd";
+my $outputFormat = "png";
+
+my $inputFile = shift(@ARGV) or die "Usage: $0 inputFile.psd [output base directory]\n"; 
+
+my $outputBaseDir = shift(@ARGV) || "$ENV{HOME}/Library/Application Support/StoryTellingEditor/Images";
+
+(my $baseName = (split(/\//, $inputFile))[-1] ) =~ s/\.psd$//;
+
+chomp( my $uniqueName = "$baseName-" . qx{date +%Y%m%d%H%M%S-$$} );
+
+my $outputDir = "$outputBaseDir/$uniqueName";
+my $outputFileBase = "$outputDir/$uniqueName";
+
+my $outputSuffixPattern = "-%d.$outputFormat";
+
+( my $outputURLBase = $outputFileBase ) =~ s/([^-0-9a-zA-Z._\/])/sprintf "%%%02x", ord($1)/ge; 
+$outputURLBase = "file://$outputURLBase";
+
+File::Path::make_path( $outputDir ) or die "$0: could not create $outputDir ($!)\n";
+
+my $magickLog = "$outputFileBase.log";
+
+my $convertCommand = qq( $convert >"$magickLog" 2>&1 -verbose "$inputFormat:$inputFile" "$outputFormat:$outputFileBase$outputSuffixPattern" );
+my $identifyCommand = qq( $identify 2>"$magickLog" -verbose -format "%s %X %Y %W %H %l\\n" "$inputFormat:$inputFile" );
+
+system( $convertCommand ) and die "$0: convertCommand '$convertCommand' failed - see $magickLog\n";
+
+my $plist = '<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+';
+
+my $layerCount = 0;
+
+foreach( qx{ $identifyCommand } ) {
+    if( my ($layer, $x, $y, $w, $h, $name) = /^(\d+) \+?(\d+) \+?(\d+) (\d+) (\d+) (.*)$/ ) { 
+
+	    my $z = $layer - 1; # first layer aka composite layer is -1
+
+	    $_ > 0x7fffffff and $_ = -0xffffffff+$_-1 for ( $x, $y ); # magick does not handle negative offsets
+
+	    $name =~ s/[^- 0-9a-zA-Z_.]/_/ig;
+
+	    my $suffix = sprintf $outputSuffixPattern, $layer;
+	    
+	    my $file = $outputFileBase . $suffix;
+	    
+	    if( ! -r $file || ! -s $file ) {
+		    warn "$0: missing or empty file ($file) for layer $layer of $inputFile - skipping layer\n";
+		    next;
+	    }
+
+	    my $URL = $outputURLBase . $suffix;
+
+	    $plist .= "<dict>\n";
+	    $plist .= "<key>zPosition</key><integer>$z</integer>\n";
+	    $plist .= "<key>frame</key><string>{{$x,$y},{$w,$h}}</string>\n";
+	    $plist .= "<key>name</key><string>$name</string>\n";
+	    $plist .= "<key>lastExportURL</key><string>$URL</string>\n";
+	    $plist .= "</dict>\n";
+
+	    ++$layerCount;
+	}
+}
+
+$plist .= "</array>\n</plist>\n";
+
+$layerCount > 0 or die "$0: identifyCommand '$identifyCommand' failed - no layers - $magickLog may contain a reason\n";
+
+
+print $plist;
+
+exit 0;
+
+
+

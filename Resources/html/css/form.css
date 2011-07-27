@@ -1,0 +1,20 @@
+input.submit {
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+}
+
+input.checkbox,input.radio {
+    position: relative;
+    top: 3px;
+    margin-right: 6px;
+}
+
+textarea,input.text,select {
+    width: 100%;
+    font-family: Verdana, sans-serif;
+    font-size: 11px;
+}
+
+label {
+    display: block;
+}

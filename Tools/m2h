@@ -1,0 +1,5 @@
+#!/bin/bash
+# cleanup tool - produces interface declarations from .m
+#
+#
+perl -ne 'chomp; if ( /^[-+]\s*\(/ ) { s/\{.*//; s/;//; print join("\n", @doc, "") .  "$_;\n\n"; @doc = (); }  if(m|^//|) { push @doc, $_; } else { @doc=(); } if( /^#pragma\s+mark\s*(-?)/ ) { print "\n" if $1; print "$_\n"; print "\n" unless $1; } ' $1 | pbcopy

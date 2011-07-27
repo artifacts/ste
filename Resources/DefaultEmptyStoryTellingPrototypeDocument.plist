@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>documentSettings</key>
+		<dict>
+			<key>#entityName</key>
+			<string>DocumentSettings</string>
+			<key>targetFolder</key>
+			<string>Neu</string>
+			<key>title</key>
+			<string>Neues Dokument</string>
+			<key>scheduledPublishingDate</key>
+			<date>2011-01-01T11:00:00Z</date>
+			<key>pageNumber</key>
+			<integer>1</integer>
+		</dict>
+		<key>name</key>
+		<string>Neue Stage</string>
+		<key>width</key>
+		<integer>768</integer>
+		<key>height</key>
+		<integer>350</integer>
+		<key>#entityName</key>
+		<string>Stage</string>
+		<key>scenario</key>
+		<dict>
+			<key>playables</key>
+			<array>
+				<dict>
+					<key>transitionToNext</key>
+					<dict>
+						<key>persistentProperties</key>
+						<dict>
+							<key>offset</key>
+							<real>0.5</real>
+						</dict>
+						<key>#entityName</key>
+						<string>Transition</string>
+					</dict>
+					<key>name</key>
+					<string>Neue Szene</string>
+					<key>#entityName</key>
+					<string>Scene</string>
+				</dict>
+			</array>
+			<key>#entityName</key>
+			<string>Scenario</string>
+		</dict>
+	</dict>
+</array>
+</plist>

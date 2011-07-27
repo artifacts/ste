@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Prototype Asset</string>
+		<key>#entityName</key>
+		<string>Asset</string>
+		<key>hidden</key>
+		<false/>
+		<key>isButton</key>
+		<false/>
+		<key>keyframeAnimation</key>
+		<dict>
+			<key>#entityName</key>
+			<string>KeyframeAnimation</string>
+			<key>keyframes</key>
+			<array>
+				<dict>
+					<key>#entityName</key>
+					<string>Keyframe</string>
+					<key>time</key>
+					<integer>0</integer>
+					<key>persistentProperties</key>
+					<dict>
+						<key>staticBody</key>
+						<false/>
+						<key>physicsEnabled</key>
+						<false/>
+						<key>shapeOffset</key>
+						<real>-0.1</real>
+						<key>friction</key>
+						<integer>1</integer>
+						<key>mass</key>
+						<integer>10</integer>
+						<key>easing</key>
+						<integer>0</integer>
+						<key>opacity</key>
+						<integer>1</integer>
+						<key>rotation</key>
+						<real>0</real>
+						<key>position</key>
+						<string>{0.0,0.0}</string>
+						<key>bounds</key>
+						<string>{{0,0}, {0,0}}</string>
+						<key>backgroundColor</key>
+						<string>#ffffff00</string>
+					</dict>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</array>
+</plist>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (c) 2010-2011, BILD digital GmbH & Co. KG
+	All rights reserved.
+	
+	BSD License
+	
+	Redistribution and use in source and binary forms, with or without
+	modification, are permitted provided that the following conditions are met:
+	* Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+	* Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer in the
+	documentation and/or other materials provided with the distribution.
+	* Neither the name of BILD digital GmbH & Co. KG nor the
+	names of its contributors may be used to endorse or promote products
+	derived from this software without specific prior written permission.
+	
+	THIS SOFTWARE IS PROVIDED BY BILD digital GmbH & Co. KG ''AS IS'' AND ANY
+	EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+	WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+	DISCLAIMED. IN NO EVENT SHALL BILD digital GmbH & Co. KG BE LIABLE FOR ANY
+	DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+	(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+	SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.storytellingeditor.org/storytelling" xmlns="http://www.storytellingeditor.org/storytelling"
+	elementFormDefault="qualified">
+
+	<xsd:include schemaLocation="basic-types.xsd" />
+
+    <xsd:group name="ActionTypesGroup">
+        <xsd:choice>
+            <xsd:element name="keyFrameAnimation" type="KeyFrameAnimationType" />
+            <xsd:element name="sendEvent" type="SendEventType" />
+        </xsd:choice>
+    </xsd:group>
+
+	<xsd:complexType name="KeyFrameAnimationType">
+		<xsd:sequence>
+			<xsd:element name="keyFrame" type="KeyFrameType"
+				minOccurs="1" maxOccurs="unbounded"></xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="duration" type="DurationType" use="required"></xsd:attribute>
+		<xsd:attribute name="timingFunction" type="TimingFunctionType"
+			use="required"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="TimingFunctionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ease-in" />
+			<xsd:enumeration value="ease-out" />
+			<xsd:enumeration value="ease-in-out" />
+			<xsd:enumeration value="linear" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="KeyFrameType">
+		<xsd:sequence>
+			<xsd:group ref="PropertyValueGroup" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="keyTime" type="xsd:float" use="required"/>
+		<xsd:attribute name="timingFunction" type="TimingFunctionType"
+			use="optional"/>
+	</xsd:complexType>
+
+	<xsd:group name="PropertyValueGroup">
+		<xsd:choice>
+			<xsd:element name="transform" type="TransformType" />
+			<xsd:element name="alpha" type="AlphaType" />
+		</xsd:choice>
+	</xsd:group>
+
+	<xsd:complexType name="ValueType" abstract="true">
+	</xsd:complexType>
+
+	<xsd:complexType name="TransformType">
+		<xsd:complexContent>
+			<xsd:extension base="ValueType">
+				<xsd:attribute name="scale" type="xsd:float" />
+				<xsd:attribute name="rotate" type="xsd:float" />
+				<xsd:attribute name="translateX" type="xsd:float" />
+				<xsd:attribute name="translateY" type="xsd:float" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="AlphaType">
+		<xsd:complexContent>
+			<xsd:extension base="ValueType">
+				<xsd:attribute name="value" type="xsd:float" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="SendEventType">
+        <xsd:attribute name="target" type="xsd:string" />
+        <xsd:attribute name="event" type="xsd:string" />
+    </xsd:complexType>
+
+</xsd:schema>

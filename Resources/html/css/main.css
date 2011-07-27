@@ -1,0 +1,81 @@
+@import url(table.css);
+
+@import url(editor.css);
+
+@import url(general.css);
+
+#mainNavigation {
+    /* background-color: #0f0; */
+    margin-top: 27em;
+    border-bottom: 0.1em solid #bebebe;
+    margin-bottom: 1em;
+    width: 64em;
+}
+
+body {
+	background-image: url(bg.jpg);
+	font-size: 7.5pt;
+	font-family: Verdana, sans-serif;
+        background-color: #f2f2f2;
+        background-repeat: repeat-x;
+        background-position: 0 -14em;
+}
+
+#logo {
+    
+}
+
+#content {
+    background-image: url(aflogo.png);
+    background-repeat: no-repeat;
+    float: left;
+    margin-top: 1em;
+    margin-left: 1em;
+    height: 90em;
+    padding-left: 10em;
+    width: 64em;    
+}
+#contentDivMainColumn {
+    width:64em;
+}
+#navi {
+	text-transform: uppercase;
+}
+
+#navi ul {
+	list-style-type: none;
+}
+#navi li {
+	
+}
+a {
+	text-decoration: underline;
+}
+a:link { color: #000; }
+a:hover { color: #666; }
+a:visited { color: #333; }
+
+.cleaner {
+        clear:both;
+        height:1px;
+        font-size:1px;
+        border:none;
+        margin:0; padding:0;
+        background:transparent;
+}
+
+#container {    
+    width: 100em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+}
+
+#sheet {
+    background-image: url(sheet-bg.jpg);
+    background-position: 0 17.9em;
+    width: 68em;
+    padding-left: 4em;
+    background-repeat: no-repeat;
+    /* border: 1px solid #f00; */
+}
