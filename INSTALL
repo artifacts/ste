@@ -1,10 +1,23 @@
-checkout StoryTellingEditor
+Requirements: Xcode3, OSX Snow Leopard, 64bit
+
+Get main Project:
+Get StoryTellingEditor: http://www.storytellingeditor.org/source/ste
+
+Get subprojects:
+(Place subprojects above main project: ../)
+
+StoryTellingEngine: 
+http://www.storytellingeditor.org/source/stengine
+
+EngineRoom:
 git clone https://github.com/bkrpub/EngineRoom.git
+
+AFCache:
 git clone https://github.com/artifacts/AFCache.git
 add SourceTree AFCACHLIB, set it to AFCache project dir
-Important: set shared build path in xcode
-Download and install BWToolkit
-Build!
 
-Note: If build fails, open AFCache Xcode Project and build AFCache, then retry building StoryTellingEditor.
+Important: set shared build path in xcode, otherwise it won't build
+Download and install BWToolkit
+
+Build!
 
